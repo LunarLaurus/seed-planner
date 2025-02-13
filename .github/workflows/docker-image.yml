@@ -11,7 +11,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.increment_version.outputs.version }}
+      version: ${{ steps.bump_subprojects.outputs.version }}
 
     steps:
       - name: Checkout Code
@@ -22,29 +22,40 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Get Current Version
-        id: get_version
+      - name: Bump Versions in Subprojects
+        id: bump_subprojects
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "Current version: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_ENV
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "==> Reading and bumping version in seed-planner-client"
 
-      - name: Increment Version
-        id: increment_version
-        run: |
+          cd seed-planner-client
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current frontend version: $CURRENT_VERSION"
+
+          # Bump version in frontend without creating a Git tag
           NEW_VERSION=$(npm version patch --no-git-tag-version | grep -oP '(?<=v)\d+\.\d+\.\d+')
-          echo "Bumping version from $VERSION to $NEW_VERSION"
+          echo "Frontend bumped to: $NEW_VERSION"
+          cd ..
+
+          echo "==> Applying the same version bump to seed-planner-api"
+          cd seed-planner-api
+          npm version "$NEW_VERSION" --no-git-tag-version
+          cd ..
+
+          # Make outputs available to other steps
           echo "version=$NEW_VERSION" >> $GITHUB_ENV
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Commit and Push Version Change
-        run: |
+          # Now commit everything
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git add package.json package-lock.json
-          git commit -m "Bump version to ${{ steps.increment_version.outputs.version }}"
-          git push origin ${{ github.ref }}
+
+          git add .
+          git commit -m "Bump version to $NEW_VERSION" || echo "No changes to commit"
+          git push origin HEAD
+
+      # If you'd like to echo the final version
+      - name: Show New Version
+        run: echo "Bumped subprojects to version ${{ steps.bump_subprojects.outputs.version }}"
 
   build:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -62,18 +73,18 @@ jobs:
         with:
           node-version: '20'
 
-      # Optional: If you want to do a local build test for front-end/back-end
+      # Optional: local build test for front-end
       - name: Install & Build Frontend
         run: |
           cd seed-planner-client
           npm ci
           npm run build
 
+      # Optional: local build test for back-end
       - name: Install & Build Backend
         run: |
-          cd ../seed-planner-api
+          cd seed-planner-api
           npm ci
-          # If you have a build script, run it
           npm run build
 
       - name: Create Git Tag
@@ -96,7 +107,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build & push multi-arch Docker image "seed-planner" with version tag
+      # Build & push multi-arch Docker image with version tag
       - name: Build and Push Versioned Docker Image
         run: |
           docker buildx build \
@@ -128,6 +139,5 @@ jobs:
             ### Docker Image
             The Docker image for this release is available at:
             - [Docker Hub Image - ${{ needs.build.outputs.tag }}](https://hub.docker.com/r/${{ secrets.DOCKER_USERNAME }}/seed-planner/tags)
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
