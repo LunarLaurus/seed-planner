@@ -15,17 +15,24 @@ import "./styles/Primary.css";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [config, setConfig] = useState({ API_URL: "", OTEL_EXPORTER_OTLP_ENDPOINT: "" });
+  const [configLoaded, setConfigLoaded] = useState(false);
 
   useEffect(() => {
     fetch("/config")
       .then((res) => res.json())
       .then((data) => {
-        window.env = data;
-        setConfig(data);
+        window.env = data; // Store env vars globally
+        setConfigLoaded(true); // Mark as loaded
       })
-      .catch((err) => console.error("Failed to load config", err));
+      .catch((err) => {
+        console.error("Failed to load config", err);
+        setConfigLoaded(true); // Allow app to render even if config fails
+      });
   }, []);
+
+  if (!configLoaded) {
+    return <div>Loading configuration...</div>; // Prevent app from rendering before config loads
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

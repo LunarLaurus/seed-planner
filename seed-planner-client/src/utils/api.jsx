@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000";
+const API_URL = window.env?.API_URL || "http://localhost:5000";
 
 // Fetch the seeding calendar (if needed later)
 export const fetchSeedingCalendar = async () => {
