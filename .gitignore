@@ -1,0 +1,65 @@
+################################
+# OS and Editor Files
+################################
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+################################
+# Logs and Debug
+################################
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+################################
+# Node Modules
+################################
+node_modules/
+seed-planner-client/node_modules/
+seed-planner-api/node_modules/
+
+################################
+# Build Outputs
+################################
+dist/
+build/
+seed-planner-client/dist/
+seed-planner-client/build/
+seed-planner-api/dist/
+
+################################
+# Coverage
+################################
+coverage/
+seed-planner-client/coverage/
+seed-planner-api/coverage/
+
+################################
+# Environment Files
+################################
+.env
+.env.* 
+seed-planner-client/.env
+seed-planner-client/.env.*
+seed-planner-api/.env
+seed-planner-api/.env.*
+
+################################
+# Misc
+################################
+.npmrc
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+# If you generate any local Docker Compose overrides with secrets
+docker-compose.override.yml
+
+# Uncomment the following if you do NOT want to commit lockfiles
+# package-lock.json
+# yarn.lock

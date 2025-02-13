@@ -1,0 +1,133 @@
+name: Docker-Construct-Stack
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  bump-version:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.increment_version.outputs.version }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get Current Version
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Increment Version
+        id: increment_version
+        run: |
+          NEW_VERSION=$(npm version patch --no-git-tag-version | grep -oP '(?<=v)\d+\.\d+\.\d+')
+          echo "Bumping version from $VERSION to $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_ENV
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit and Push Version Change
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add package.json package-lock.json
+          git commit -m "Bump version to ${{ steps.increment_version.outputs.version }}"
+          git push origin ${{ github.ref }}
+
+  build:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: bump-version
+    outputs:
+      tag: ${{ steps.create_tag.outputs.tag }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Optional: If you want to do a local build test for front-end/back-end
+      - name: Install & Build Frontend
+        run: |
+          cd seed-planner-client
+          npm ci
+          npm run build
+
+      - name: Install & Build Backend
+        run: |
+          cd ../seed-planner-api
+          npm ci
+          # If you have a build script, run it
+          npm run build
+
+      - name: Create Git Tag
+        id: create_tag
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          TAG="v${{ needs.bump-version.outputs.version }}"
+          echo "tag=$TAG" >> $GITHUB_ENV
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          git tag -a "$TAG" -m "Release $TAG"
+          git push origin "$TAG"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build & push multi-arch Docker image "seed-planner" with version tag
+      - name: Build and Push Versioned Docker Image
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --tag ${{ secrets.DOCKER_USERNAME }}/seed-planner:${{ needs.bump-version.outputs.version }} \
+            --push .
+
+      # Also push "latest" tag if on main
+      - name: Build and Push Latest Docker Image
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --tag ${{ secrets.DOCKER_USERNAME }}/seed-planner:latest \
+            --push .
+
+  create-release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.build.outputs.tag }}
+          body: |
+            ### Docker Image
+            The Docker image for this release is available at:
+            - [Docker Hub Image - ${{ needs.build.outputs.tag }}](https://hub.docker.com/r/${{ secrets.DOCKER_USERNAME }}/seed-planner/tags)
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

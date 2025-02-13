@@ -1,0 +1,296 @@
+/* ===========================
+🌍 Global Reset & Typography
+=========================== */
+@import url('https://fonts.googleapis.com/css2?family=HPE&display=swap');
+
+:root {
+  /* 🎨 Global Colors */
+  --primary-green: #4CAF50;
+  --primary-green-hover: #388E3C;
+  --primary-green-dark: #2d572c;
+  --primary-green-dark-hover: #1b3b1b;
+  --earthy-amber-light: #d69b48;
+  --earthy-amber-light-hover: #bb8037;
+  --earthy-amber: #c78c37;
+  --earthy-amber-hover: #a06f2d;
+  --earthy-red: #b52b3b;
+  --earthy-red-hover: #8f222d;
+  --background-light: #f4f7f6;
+  --background-dark: #727272;
+  --text-dark: #333;
+  --grey-light: #ccc;
+  --grey-medium: #aaa;
+  --grey-dark: #8b8b8b;
+  --box-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --box-shadow-medium: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --box-shadow-dark: 0 2px 15px rgba(0, 0, 0, 0.2);
+  --border-radius-button: 5px;
+  --border-radius-standard: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "HPE", sans-serif;
+}
+
+body {
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ===========================
+📦 Container & Layout
+=========================== */
+.main-content {
+  margin-top: 96px;
+  /* Adjust based on navbar height */
+  padding: 20px;
+}
+
+.container,
+.page-container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 20px;
+}
+
+.page-container {
+  background: white;
+  border-radius: var(--border-radius-standard);
+  box-shadow: var(--box-shadow-medium);
+}
+
+.content-container {
+  margin-bottom: 30px;
+  background-color: var(--background-light);
+  padding: 20px;
+  border-radius: var(--border-radius-standard);
+  box-shadow: var(--box-shadow-light);
+}
+
+/* ===========================
+🏷️ Headings
+=========================== */
+h1,
+h2,
+h3,
+h4 {
+  text-align: center;
+  color: var(--primary-green);
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-size: 48px;
+}
+h2 {
+  font-size: 32px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 16px;
+}
+
+/* ===========================
+📋 Forms & Inputs
+=========================== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 15px;
+  background: white;
+  border-radius: var(--border-radius-standard);
+  box-shadow: var(--box-shadow-light);
+}
+
+input,
+select,
+button {
+  padding: 10px;
+  border: 1px solid var(--grey-light);
+  border-radius: var(--border-radius-button);
+  font-size: 16px;
+  width: 100%;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-green);
+}
+
+/* ===========================
+🎨 Buttons
+=========================== */
+button {
+  padding: 10px;
+  margin: 2px;
+  border-radius: var(--border-radius-button);
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s ease-in-out;
+  background: var(--primary-green);
+  color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+  background: var(--primary-green-hover);
+}
+
+/* Cancel Button */
+button.cancel {
+  background: var(--grey-medium);
+  color: var(--text-dark);
+}
+
+button.cancel:hover {
+  background: var(--grey-dark);
+}
+
+/* Primary Button */
+button.primary {
+  background: var(--primary-green);
+  color: white;
+}
+
+button.primary:hover {
+  background: var(--primary-green-hover);
+}
+
+/* Edit Button */
+button.edit {
+  background: var(--earthy-amber);
+  color: white;
+}
+
+button.edit:hover {
+  background: var(--earthy-amber-hover);
+}
+
+/* Danger Buttons */
+button.reset,
+button.delete {
+  background: var(--earthy-red);
+  color: white;
+}
+
+button.reset:hover,
+button.delete:hover {
+  background: var(--earthy-red-hover);
+}
+
+/* ===========================
+📊 Table Styling
+=========================== */
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: var(--background-light);
+  border-radius: var(--border-radius-standard);
+  box-shadow: var(--box-shadow-light);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--border-radius-standard);
+  background: white;
+  box-shadow: var(--box-shadow-light);
+}
+
+table tr:first-child th:first-child {
+  border-top-left-radius: var(--border-radius-standard);
+}
+
+table tr:first-child th:last-child {
+  border-top-right-radius: var(--border-radius-standard);
+}
+
+table tr:last-child td:first-child {
+  border-bottom-left-radius: var(--border-radius-standard);
+}
+
+table tr:last-child td:last-child {
+  border-bottom-right-radius: var(--border-radius-standard);
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+th {
+  background: var(--primary-green);
+  color: white;
+}
+
+tr {
+  height: 100px;
+}
+
+/* ===========================
+📦 Responsive Fixes
+=========================== */
+@media (max-width: 768px) {
+  .table-container {
+    overflow-x: scroll;
+  }
+
+  td.actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  td.grid-container {
+    display: block;
+  }
+  h1 {
+      font-size: 32px; 
+  }
+  h2 {
+      font-size: 24px; 
+  }
+  h3 {
+      font-size: 16px; 
+  }
+  h4 {
+      font-size: 12px; 
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  td.actions {
+    gap: 3px;
+  }
+
+  h1 {
+      font-size: 24px; 
+  }
+  h2 {
+      font-size: 16px; 
+  }
+  h3 {
+      font-size: 12px; 
+  }
+  h4 {
+      font-size: 10px; 
+  }
+}
