@@ -15,6 +15,16 @@
   --earthy-amber-hover: #a06f2d;
   --earthy-red: #b52b3b;
   --earthy-red-hover: #8f222d;
+  --soft-blue: #6A8BA4;
+  --soft-blue-hover: #58788F;  
+  --subdued-purple: #A080A8;
+  --subdued-purple-hover: #8C6C8C;  
+  --muted-teal: #5B8A78;
+  --muted-teal-hover: #507A69;  
+  --subdued-orange: #E0A97F;
+  --subdued-orange-hover: #C89067;  
+  --muted-magenta: #C5788B;
+  --muted-magenta-hover: #AD6478;
   --background-light: #f4f7f6;
   --background-dark: #727272;
   --text-dark: #333;
@@ -131,8 +141,8 @@ select:focus {
 🎨 Buttons
 =========================== */
 button {
-  padding: 10px;
-  margin: 2px;
+  min-width: 50px;
+  min-height: 30px;
   border-radius: var(--border-radius-button);
   font-size: 16px;
   cursor: pointer;
@@ -165,6 +175,16 @@ button.primary {
 
 button.primary:hover {
   background: var(--primary-green-hover);
+}
+
+/* Copy Button */
+button.copy {
+  background: var(--soft-blue);
+  color: white;
+}
+
+button.copy:hover {
+  background: var(--soft-blue-hover);
 }
 
 /* Edit Button */

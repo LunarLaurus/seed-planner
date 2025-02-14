@@ -6,10 +6,10 @@ import "@/styles/modal/CommonModal.css";
 
 interface EditPlantModalProps {
     plantId: number;
-    onClose: () => void;
 }
 
-const EditPlantModal: React.FC<EditPlantModalProps> = ({ plantId, onClose }) => {
+const EditPlantModal: React.FC<EditPlantModalProps> = ({ plantId }) => {
+    const [isOpen, setIsOpen] = useState(false);
     const queryClient = useQueryClient();
 
     // ✅ Define form state with correct types
@@ -77,15 +77,15 @@ const EditPlantModal: React.FC<EditPlantModalProps> = ({ plantId, onClose }) => 
         mutationFn: (updatedPlant) => updatePlant(updatedPlant.id, updatedPlant),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["plant", plantId] });
-            queryClient.invalidateQueries({ queryKey: ["plants"] });        
-            onClose();
+            queryClient.invalidateQueries({ queryKey: ["plants"] });
+            setIsOpen(false);
         },
         onError: (error) => {
             alert(`Failed to update plant: ${error instanceof Error ? error.message : "Unknown error"}`);
         },
     });
-    
-    
+
+
 
     if (!plantId) return null;
     if (isLoading) return <p>Loading plant details...</p>;
@@ -98,74 +98,82 @@ const EditPlantModal: React.FC<EditPlantModalProps> = ({ plantId, onClose }) => 
     };
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <h2>Edit Plant</h2>
-                <form className="plant-form" onSubmit={handleSubmit}>
-                    <b>Common Name</b>
-                    <input
-                        type="text"
-                        placeholder="Common Name"
-                        value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        required
-                    />
+        <div className="modal-open-btn-container">
+            <button className={"edit"} onClick={() => setIsOpen(true)}>
+                Edit
+            </button>
 
-                    <b>Botanical Name</b>
-                    <select
-                        value={form.species_id}
-                        onChange={(e) => setForm({ ...form, species_id: Number(e.target.value) })}
-                        required
-                    >
-                        <option value={-1} disabled>Select Species</option>
-                        {speciesList?.map((species) => (
-                            <option key={species.id} value={species.id}>
-                                {species.genus} {species.species}
-                            </option>
-                        ))}
-                    </select>
+            {isOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Edit Plant</h2>
+                        <form className="plant-form" onSubmit={handleSubmit}>
+                            <b>Common Name</b>
+                            <input
+                                type="text"
+                                placeholder="Common Name"
+                                value={form.name}
+                                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                required
+                            />
 
-                    <b>Cultivar</b>
-                    <input
-                        type="text"
-                        placeholder="Cultivar"
-                        value={form.variety}
-                        onChange={(e) => setForm({ ...form, variety: e.target.value })}
-                        required
-                    />
-                    
-                    <b>Days to Germinate</b>
-                    <input
-                        type="number"
-                        placeholder="Days to Germinate"
-                        value={form.days_to_germinate || -1}
-                        onChange={(e) =>
-                            setForm({ ...form, days_to_germinate: e.target.value ? Number(e.target.value) : undefined })
-                        }
-                        required
-                    />
-                    
-                    <b>Days to Harvest</b>
-                    <input
-                        type="number"
-                        placeholder="Days to Harvest"
-                        value={form.days_to_harvest || -1}
-                        onChange={(e) =>
-                            setForm({ ...form, days_to_harvest: e.target.value ? Number(e.target.value) : undefined })
-                        }
-                        required
-                    />
+                            <b>Botanical Name</b>
+                            <select
+                                value={form.species_id}
+                                onChange={(e) => setForm({ ...form, species_id: Number(e.target.value) })}
+                                required
+                            >
+                                <option value={-1} disabled>Select Species</option>
+                                {speciesList?.map((species) => (
+                                    <option key={species.id} value={species.id}>
+                                        {species.genus} {species.species}
+                                    </option>
+                                ))}
+                            </select>
 
-                    <div className="modal-actions">
-                        <button type="submit" className={`primary ${isValid ? "" : "inactive"}`} disabled={!isValid}>
-                            Save Changes
-                        </button>
-                        <button type="button" className="cancel" onClick={onClose}>
-                            Cancel
-                        </button>
+                            <b>Cultivar</b>
+                            <input
+                                type="text"
+                                placeholder="Cultivar"
+                                value={form.variety}
+                                onChange={(e) => setForm({ ...form, variety: e.target.value })}
+                                required
+                            />
+
+                            <b>Days to Germinate</b>
+                            <input
+                                type="number"
+                                placeholder="Days to Germinate"
+                                value={form.days_to_germinate || -1}
+                                onChange={(e) =>
+                                    setForm({ ...form, days_to_germinate: e.target.value ? Number(e.target.value) : undefined })
+                                }
+                                required
+                            />
+
+                            <b>Days to Harvest</b>
+                            <input
+                                type="number"
+                                placeholder="Days to Harvest"
+                                value={form.days_to_harvest || -1}
+                                onChange={(e) =>
+                                    setForm({ ...form, days_to_harvest: e.target.value ? Number(e.target.value) : undefined })
+                                }
+                                required
+                            />
+
+                            <div className="modal-actions">
+                                <button type="submit" className={`primary ${isValid ? "" : "inactive"}`} disabled={!isValid}>
+                                    Save Changes
+                                </button>
+                                <button type="button" className="cancel" onClick={() => setIsOpen(false)}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
+                </div>
+            )}
         </div>
     );
 };
