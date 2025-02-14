@@ -27,7 +27,7 @@ const NewTrayModal: React.FC<NewTrayModalProps> = ({ queryClient }) => {
             setNewTray(newTray);
             setIsOpen(false);
         },
-        onError: (error: any) => alert(`Failed to add tray: ${error.message}`),
+        onError: (error) => alert(`Failed to add tray: ${error.message}`),
     });
 
     // Handle form submission

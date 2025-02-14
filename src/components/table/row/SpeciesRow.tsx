@@ -5,7 +5,7 @@ import CopySpeciesModal from "@/components/modal/CopySpeciesModal";
 
 interface SpeciesRowProps {
     species: Species;
-    deleteSpeciesMutation: UseMutationResult<void, any, number>;
+    deleteSpeciesMutation: UseMutationResult<void, Error, number>;
 }
 
 const SpeciesRow: React.FC<SpeciesRowProps> = ({ species, deleteSpeciesMutation }) => {

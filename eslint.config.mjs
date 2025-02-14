@@ -58,6 +58,8 @@ export default [
       ],
       "no-import-assign": "error",
       "no-unreachable": "error",
+      "react/prop-types": "off",
+      "react/react-in-jsx-scope": "off",
     },
   },
 ];

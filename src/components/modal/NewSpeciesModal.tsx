@@ -24,7 +24,7 @@ const NewSpeciesModal: React.FC<NewSpeciesModalProps> = ({ queryClient }) => {
             setNewSpecies({ id: 0, genus: "", species: "" }); // ✅ Reset after success
             setIsOpen(false);
         },
-        onError: (error: any) => alert(`Failed to add species: ${error.message}`),
+        onError: (error) => alert(`Failed to add species: ${error.message}`),
     });
 
     // Handle form submission

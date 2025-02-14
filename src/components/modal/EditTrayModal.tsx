@@ -71,7 +71,7 @@ const EditTrayModal: React.FC<EditTrayModalProps> = ({ trayId, onClose }) => {
             queryClient.invalidateQueries({ queryKey: ["trays"] });
             onClose(); // Close modal on success
         },
-        onError: (error: any) => alert(`Failed to update tray: ${error.message}`),
+        onError: (error) => alert(`Failed to update tray: ${error.message}`),
     });
 
     if (!trayId) return null;

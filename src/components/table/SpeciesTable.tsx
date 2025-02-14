@@ -13,7 +13,7 @@ const SpeciesTable: React.FC<SpeciesTableProps> = ({ speciesList, queryClient })
     const deleteSpeciesMutation = useMutation({
         mutationFn: (speciesId: number) => deleteSpecies(speciesId),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["species"] }),
-        onError: (error: any) => alert(`Failed to delete species: ${error.message}`),
+        onError: (error) => alert(`Failed to delete species: ${error.message}`),
     });
 
     // Define Columns

@@ -26,7 +26,7 @@ console.log("GUI: Found API_URL: " + API_URL);
  */
 export const loadConfig = async (): Promise<void> => {
     try {
-        const response = await axios.get<Record<string, any>>(`${INTERNAL_API_URL_BASE}/config`);
+        const response = await axios.get<Record<string, string | number>>(`${INTERNAL_API_URL_BASE}/config`);
         // Store configuration globally (if needed)
         window.env = response.data;
     } catch (err) {

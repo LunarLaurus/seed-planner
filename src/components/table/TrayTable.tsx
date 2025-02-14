@@ -13,7 +13,7 @@ const TrayTable: React.FC<TrayTableProps> = ({ trays, queryClient }) => {
     const deleteTrayMutation = useMutation({
         mutationFn: (trayId: number) => deleteTray(trayId),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["trays"] }),
-        onError: (error: any) => alert(`Failed to delete tray: ${error.message}`),
+        onError: (error) => alert(`Failed to delete tray: ${error.message}`),
     });
 
     // Define Columns for SortableTable

@@ -10,18 +10,18 @@ export const groupByMonthYear = (events: SeedingEvent[], type: "germination" | "
   const grouped: Record<string, SeedingEvent[]> = {};
 
   events.forEach((event: SeedingEvent) => {
-      const dateStr = 
-          type === "germination" ? event.germination_date :
-          type === "harvest" ? event.harvest_date :
+    const dateStr =
+      type === "germination" ? event.germination_date :
+        type === "harvest" ? event.harvest_date :
           event.planted_date;
 
-      if (!dateStr) return;
+    if (!dateStr) return;
 
-      const date = new Date(dateStr);
-      const monthYear = date.toLocaleString("default", { month: "long", year: "numeric" });
+    const date = new Date(dateStr);
+    const monthYear = date.toLocaleString("default", { month: "long", year: "numeric" });
 
-      if (!grouped[monthYear]) grouped[monthYear] = [];
-      grouped[monthYear].push(event);
+    if (!grouped[monthYear]) grouped[monthYear] = [];
+    grouped[monthYear].push(event);
   });
 
   return grouped;
@@ -37,8 +37,8 @@ export const groupByMonthYear = (events: SeedingEvent[], type: "germination" | "
 */
 export const filterEventsInRange = (events: SeedingEvent[], key: keyof SeedingEvent, startDate: Date, endDate: Date): SeedingEvent[] => {
   return events.filter((event) => {
-      const eventDate = event[key] ? new Date(event[key]!) : null;
-      return eventDate && eventDate >= startDate && eventDate <= endDate;
+    const eventDate = event[key] ? new Date(event[key]!) : null;
+    return eventDate && eventDate >= startDate && eventDate <= endDate;
   });
 };
 

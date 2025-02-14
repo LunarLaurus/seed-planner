@@ -14,7 +14,7 @@ const PlantTable: React.FC<PlantTableProps> = ({ plants, speciesList, queryClien
     const deletePlantMutation = useMutation({
         mutationFn: (plantId: number) => deletePlant(plantId),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["plants"] }),
-        onError: (error: any) => alert(`Failed to delete plant: ${error.message}`),
+        onError: (error) => alert(`Failed to delete plant: ${error.message}`),
     });
 
     // Convert speciesList into a lookup map for fast access

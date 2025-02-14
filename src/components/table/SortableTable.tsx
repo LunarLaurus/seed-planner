@@ -10,6 +10,8 @@ interface Column {
 interface SortableTableProps {
     title: string;
     columns: Column[];
+    // We want to allow using any here as this is a genric data table~
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: Record<string, any>[];
 }
 

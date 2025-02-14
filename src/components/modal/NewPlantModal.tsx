@@ -28,7 +28,7 @@ const NewPlantModal: React.FC<NewPlantModalProps> = ({ speciesList, queryClient 
             setNewPlant({ id: 0, name: "", species_id: 0, variety: "", days_to_germinate: undefined, days_to_harvest: undefined });
             setIsOpen(false);
         },
-        onError: (error: any) => alert(`Failed to add plant: ${error.message}`),
+        onError: (error) => alert(`Failed to add plant: ${error.message}`),
     });
 
     // Handle form submission

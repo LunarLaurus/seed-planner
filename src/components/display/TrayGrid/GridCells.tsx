@@ -1,5 +1,6 @@
 import React from "react";
 import { DisplayCell, CellCoordinates } from "@/typings/types";
+import GridCell from "./GridCell";
 
 interface GridCellsProps {
   formattedGrid: DisplayCell[][];
@@ -8,7 +9,7 @@ interface GridCellsProps {
 }
 
 /**
- * GridCells renders the individual cells of the tray grid.
+ * GridCells maps over the grid and renders each individual GridCell.
  */
 const GridCells: React.FC<GridCellsProps> = ({ formattedGrid, toggleCell, isCellSelected }) => {
   return (
@@ -20,14 +21,14 @@ const GridCells: React.FC<GridCellsProps> = ({ formattedGrid, toggleCell, isCell
           const gridColumn = cell.x + 2;
           const selected = isCellSelected({ x: cell.x, y: cell.y });
           return (
-            <div
+            <GridCell
               key={`${cell.x}-${cell.y}`}
-              className={`grid-cell ${cell.plant_name ? "occupied" : ""} ${selected ? "selected" : ""}`}
-              style={{ gridColumn, gridRow }}
-              onClick={() => toggleCell({ x: cell.x, y: cell.y })}
-            >
-              {cell.plant_name ? cell.plant_name : "-"}
-            </div>
+              cell={cell}
+              gridRow={gridRow}
+              gridColumn={gridColumn}
+              isSelected={selected}
+              toggleCell={toggleCell}
+            />
           );
         })
       )}
