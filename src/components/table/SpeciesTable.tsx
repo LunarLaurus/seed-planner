@@ -1,8 +1,8 @@
 import { QueryClient, useMutation } from "@tanstack/react-query";
-import { deleteSpecies } from "../../utils/api";
+import { deleteSpecies } from "@/utils/api";
+import { Species } from "@/typings/types";
 import SortableTable from "./SortableTable";
 import SpeciesRow from "./row/SpeciesRow";
-import { Species } from "@/typings/types";
 
 interface SpeciesTableProps {
     speciesList: Species[];

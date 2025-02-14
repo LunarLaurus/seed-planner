@@ -1,8 +1,8 @@
 import { QueryClient, useMutation } from "@tanstack/react-query";
-import { deleteTray } from "../../utils/api";
+import { deleteTray } from "@/utils/api";
+import { Tray } from "@/typings/types";
 import SortableTable from "./SortableTable";
 import TrayRow from "./row/TrayRow";
-import { Tray } from "@/typings/types";
 
 interface TrayTableProps {
     trays: Tray[];

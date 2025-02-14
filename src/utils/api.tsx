@@ -299,6 +299,7 @@ export const assignPlantToCell = async (trayId: number, cell: Cell): Promise<Cel
 export const resetTrayCell = async (trayId: number, coords: CellCoordinates): Promise<void> => {
     try {
         await axios.put(`${API_URL}/trays/${trayId}/cells/reset`, coords);
+        return;
     } catch (err) {
         console.error(`Error resetting cell in tray ${trayId}`, err);
         throw err;

@@ -29,6 +29,14 @@
     box-shadow: var(--box-shadow-dark);
     width: fit-content;
     margin: auto;
+    align-items: center;
+}
+
+/* New: Grid container for the complete tray (including axis buttons)
+   Ensures that all grid items (cells and buttons) are centered. */
+.tray-grid-container {
+    justify-items: center;
+    align-items: center;
 }
 
 /* ===========================
@@ -138,24 +146,24 @@
 .cell-control button {
     margin: 5px;
     padding: 6px 12px;
-    font-size: 13px;
+    font-size: 14px;
     border-radius: var(--border-radius-standard);
     border: none;
     cursor: pointer;
-    transition: 0.2s ease-in-out;
+    transition: background 0.2s ease-in-out, transform 0.1s ease;
 }
 
-/* Reset button */
-.cell-control .reset {
-    background: var(--earthy-red);
+/* Assign and Reset Buttons */
+.cell-control button:not(.cancel) {
+    background: var(--earthy-amber);
     color: white;
 }
 
-.cell-control .reset:hover {
-    background: var(--earthy-red-hover);
+.cell-control button:not(.cancel):hover {
+    background: var(--earthy-amber-hover);
 }
 
-/* Cancel button */
+/* Cancel Button */
 .cell-control .cancel {
     background: var(--grey-medium);
     color: var(--text-dark);
@@ -163,4 +171,37 @@
 
 .cell-control .cancel:hover {
     background: var(--grey-dark);
+}
+
+/* Optional: Style the select dropdown in the control panel */
+.cell-control select {
+    padding: 4px;
+    font-size: 14px;
+    border: 1px solid var(--grey-light);
+    border-radius: var(--border-radius-button);
+    margin-right: 8px;
+}
+
+/* ===========================
+🔲 Axis Buttons (Row & Column Selectors)
+=========================== */
+
+.axis-btn {
+    background: var(--muted-teal);
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-button);
+    font-size: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.axis-btn:hover {
+    background: var(--muted-teal-hover);
 }

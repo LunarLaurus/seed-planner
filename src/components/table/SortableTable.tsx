@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../styles/SortableTable.css";
+import "@/styles/SortableTable.css";
 
 interface Column {
     key: string;
@@ -14,7 +14,7 @@ interface SortableTableProps {
 }
 
 const SortableTable: React.FC<SortableTableProps> = ({ title, columns, data }) => {
-    const [sortConfig, setSortConfig] = useState < { key: string; direction: "asc" | "desc" } > ({
+    const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" }>({
         key: "",
         direction: "asc",
     });

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchTrays, fetchSeedingEvents } from "../utils/api";
-import "../styles/Forms.css";
+import { fetchTrays, fetchSeedingEvents } from "@/utils/api";
 import { SeedingEvent, Tray } from "@/typings/types";
-import { filterEventsInRange, isRecentEvent } from "../utils/seedingUtils";
+import { filterEventsInRange, isRecentEvent } from "@/utils/seedingUtils";
+import "@/styles/Forms.css";
 
 /**
  * Dashboard component that displays current trays, recently planted events,

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient, UseMutationResult } from "@tanstack/react-query";
-import { fetchTrayById, updateTray } from "../../utils/api";
+import { fetchTrayById, updateTray } from "@/utils/api";
 import { Tray } from "@/typings/types";
-import "../../styles/modal/CommonModal.css";
+import "@/styles/modal/CommonModal.css";
 
 interface EditTrayModalProps {
     trayId: number;

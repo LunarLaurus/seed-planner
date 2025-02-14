@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { QueryClient, useMutation } from "@tanstack/react-query";
-import { addSpecies } from "../../utils/api";
-import "../../styles/modal/CommonModal.css";
-import { Species } from "@/typings/types"; // ✅ Corrected import
+import { addSpecies } from "@/utils/api";
+import { Species } from "@/typings/types";
+import "@/styles/modal/CommonModal.css";
 
 interface NewSpeciesModalProps {
     queryClient: QueryClient;
@@ -47,6 +47,7 @@ const NewSpeciesModal: React.FC<NewSpeciesModalProps> = ({ queryClient }) => {
                     <div className="modal-content">
                         <h2>Add New Species</h2>
                         <form className="species-form" onSubmit={handleSubmit}>
+                            <b>Genus</b>
                             <input
                                 type="text"
                                 placeholder="Genus"
@@ -54,6 +55,7 @@ const NewSpeciesModal: React.FC<NewSpeciesModalProps> = ({ queryClient }) => {
                                 onChange={(e) => setNewSpecies({ ...newSpecies, genus: e.target.value })}
                                 required
                             />
+                            <b>Species</b>
                             <input
                                 type="text"
                                 placeholder="Species"

@@ -39,6 +39,11 @@ export interface TrayCell {
   planted_date: string; // Stored as a string in YYYY-MM-DD format
 }
 
+export interface DisplayCell extends TrayCell {
+  plant_name?: string | null;
+  variety?: string | null;
+}
+
 // Coordinates for interacting with tray grid
 export interface CellCoordinates {
   x: number;

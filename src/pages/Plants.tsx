@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchPlants, fetchSpecies } from "../utils/api";
-import NewPlantModal from "../components/modal/NewPlantModal";
-import PlantTable from "../components/table/PlantTable";
-import "../styles/Forms.css";
+import { fetchPlants, fetchSpecies } from "@/utils/api";
 import { Plant, Species } from "@/typings/types";
+import NewPlantModal from "@/components/modal/NewPlantModal";
+import PlantTable from "@/components/table/PlantTable";
+import "@/styles/Forms.css";
 
 const Plants: React.FC = () => {
     const queryClient = useQueryClient();

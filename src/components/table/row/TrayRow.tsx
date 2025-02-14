@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { UseMutationResult } from "@tanstack/react-query";
 import { Tray } from "@/typings/types";
-import TrayGrid from "../../display/TrayGrid";
-import DeleteButton from "../../button/DeleteButton";
+import TrayGrid from "@/components/display/TrayGrid/TrayGrid";
+import DeleteButton from "@/components/button/DeleteButton";
 import EditTrayModal from "@/components/modal/EditTrayModal";
 
 interface TrayRowProps {

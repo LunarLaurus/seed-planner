@@ -16,13 +16,13 @@
   --earthy-red: #b52b3b;
   --earthy-red-hover: #8f222d;
   --soft-blue: #6A8BA4;
-  --soft-blue-hover: #58788F;  
+  --soft-blue-hover: #58788F;
   --subdued-purple: #A080A8;
-  --subdued-purple-hover: #8C6C8C;  
+  --subdued-purple-hover: #8C6C8C;
   --muted-teal: #5B8A78;
-  --muted-teal-hover: #507A69;  
+  --muted-teal-hover: #507A69;
   --subdued-orange: #E0A97F;
-  --subdued-orange-hover: #C89067;  
+  --subdued-orange-hover: #C89067;
   --muted-magenta: #C5788B;
   --muted-magenta-hover: #AD6478;
   --background-light: #f4f7f6;
@@ -98,12 +98,15 @@ h4 {
 h1 {
   font-size: 48px;
 }
+
 h2 {
   font-size: 32px;
 }
+
 h3 {
   font-size: 24px;
 }
+
 h4 {
   font-size: 16px;
 }
@@ -141,8 +144,6 @@ select:focus {
 🎨 Buttons
 =========================== */
 button {
-  min-width: 50px;
-  min-height: 30px;
   border-radius: var(--border-radius-button);
   font-size: 16px;
   cursor: pointer;
@@ -280,17 +281,21 @@ tr {
   td.grid-container {
     display: block;
   }
+
   h1 {
-      font-size: 32px; 
+    font-size: 32px;
   }
+
   h2 {
-      font-size: 24px; 
+    font-size: 24px;
   }
+
   h3 {
-      font-size: 16px; 
+    font-size: 16px;
   }
+
   h4 {
-      font-size: 12px; 
+    font-size: 12px;
   }
 }
 
@@ -302,15 +307,18 @@ tr {
   }
 
   h1 {
-      font-size: 24px; 
+    font-size: 24px;
   }
+
   h2 {
-      font-size: 16px; 
+    font-size: 16px;
   }
+
   h3 {
-      font-size: 12px; 
+    font-size: 12px;
   }
+
   h4 {
-      font-size: 10px; 
+    font-size: 10px;
   }
 }
