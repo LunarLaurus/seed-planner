@@ -1,12 +1,12 @@
 import globals from "globals";
-import reactPlugin from "eslint-plugin-react";
+import parser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
+import reactPlugin from "eslint-plugin-react";
 import prettierPlugin from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 
 export default [
   {
-    // Apply these settings to all JS/TS files
     files: ["**/*.{js,jsx,ts,tsx}"],
     ignores: [
       "**/public/**/*",
@@ -15,7 +15,8 @@ export default [
       "src/coverage/**/*",
     ],
     languageOptions: {
-      parser: require.resolve("@typescript-eslint/parser"),
+      // Provide the parser directly via import
+      parser,
       ecmaVersion: 2022,
       sourceType: "module",
       parserOptions: {
@@ -27,8 +28,8 @@ export default [
       },
     },
     plugins: {
-      react: reactPlugin,
       "@typescript-eslint": tsPlugin,
+      react: reactPlugin,
       prettier: prettierPlugin,
     },
     settings: {
@@ -36,7 +37,6 @@ export default [
         version: "detect",
       },
     },
-    // Merge recommended rules from various configs
     rules: {
       // Spread in recommended rules from @typescript-eslint
       ...tsPlugin.configs.recommended.rules,
@@ -44,10 +44,10 @@ export default [
       // Spread in recommended rules from eslint-plugin-react
       ...reactPlugin.configs.recommended.rules,
 
-      // Prettier disables conflicting rules
+      // Pull in Prettier overrides
       ...prettierConfig.rules,
 
-      // Your custom rules
+      // Custom rules
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
