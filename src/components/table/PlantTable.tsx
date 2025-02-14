@@ -1,35 +1,25 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { deletePlant, fetchSpeciesById } from "../../utils/api";
+import { QueryClient, useMutation } from "@tanstack/react-query";
+import { deletePlant } from "../../utils/api";
 import SortableTable from "./SortableTable";
 import PlantRow from "./row/PlantRow";
-import { Plant } from "@/typings/types";
+import { Plant, Species } from "@/typings/types";
 
 interface PlantTableProps {
     plants: Plant[];
+    speciesList: Species[];
     queryClient: QueryClient;
 }
 
-const PlantTable: React.FC<PlantTableProps> = ({ plants, queryClient }) => {
+const PlantTable: React.FC<PlantTableProps> = ({ plants, speciesList, queryClient }) => {
     const deletePlantMutation = useMutation({
         mutationFn: (plantId: number) => deletePlant(plantId),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["plants"] }),
         onError: (error: any) => alert(`Failed to delete plant: ${error.message}`),
     });
 
-    // Fetch species names for all unique species IDs
-    const uniqueSpeciesIds = [...new Set(plants.map((p) => p.species_id))];
-
-    const speciesQueries = uniqueSpeciesIds.map((id) => ({
-        id,
-        query: useQuery({
-            queryKey: ["species", id],
-            queryFn: () => fetchSpeciesById(id),
-            enabled: !!id,
-        }),
-    }));
-
-    const speciesMap = Object.fromEntries(
-        speciesQueries.map(({ id, query }) => [id, query.data?.genus + " " + query.data?.species || `Id: ${id}`])
+    // Convert speciesList into a lookup map for fast access
+    const speciesMap: Record<number, string> = Object.fromEntries(
+        speciesList.map(({ id, genus, species }) => [id, `${genus} ${species}`])
     );
 
     // Define Columns for SortableTable
@@ -42,14 +32,19 @@ const PlantTable: React.FC<PlantTableProps> = ({ plants, queryClient }) => {
         { key: "actions", label: "Actions", disableSort: true },
     ];
 
-    const tableData = plants?.map((plant) => ({
-        variety: plant.variety,
-        name: plant.name,
-        species: speciesMap[plant.species_id] || `Id: ${plant.species_id}`,
-        days_to_germinate: plant.days_to_germinate,
-        days_to_harvest: plant.days_to_harvest,
-        actions: <PlantRow key={plant.id} plant={plant} deletePlantMutation={deletePlantMutation} />,
-    })) || [];
+    // Populate table data
+    const tableData = plants.map((plant) => {
+        const botanicalName = speciesMap[plant.species_id] || `Unknown Species (ID: ${plant.species_id})`;
+
+        return {
+            variety: plant.variety,
+            name: plant.name,
+            species: botanicalName,
+            days_to_germinate: plant.days_to_germinate ?? "N/A", // Handle missing data
+            days_to_harvest: plant.days_to_harvest ?? "N/A", // Handle missing data
+            actions: <PlantRow key={plant.id} plant={plant} deletePlantMutation={deletePlantMutation} />,
+        };
+    });
 
     return <SortableTable title="Existing Plants" columns={columns} data={tableData} />;
 };

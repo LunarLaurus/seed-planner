@@ -23,9 +23,9 @@ const SeedingList: React.FC<SeedingListProps> = ({ title, events, type }) => {
                     <div key={monthYear}>
                         <h3>{monthYear}</h3>
                         <ul>
-                            {eventsForMonth.map((event) => (
+                            {eventsForMonth.map((event, index) => (
                                 <SeedingEvent
-                                    key={`${event.tray_name}-${event.planted_date}`}
+                                    key={`${event.tray_name}-${event.planted_date}-${index}`}
                                     event={event}
                                     type={type}
                                 />

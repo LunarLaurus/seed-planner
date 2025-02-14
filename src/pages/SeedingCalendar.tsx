@@ -9,7 +9,7 @@ const SeedingCalendar: React.FC = () => {
     const { data: events = [], isLoading } = useQuery<SeedingEvent[], Error>({
         queryKey: ["calendar"],
         queryFn: fetchSeedingEvents,
-        staleTime: 60 * 1000, // Cache for 1 minute
+        staleTime: 15 * 60 * 1000, // Cache for 15 minutes
     });
 
     if (isLoading) return <p>Loading seeding calendar...</p>;
@@ -17,12 +17,12 @@ const SeedingCalendar: React.FC = () => {
     const today = new Date();
 
     const upcomingGerminations = groupByMonthYear(
-        events.filter(event => event.germination_date && new Date(event.germination_date) >= today), 
+        events.filter(event => event.germination_date && new Date(event.germination_date) >= today),
         "germination"
     );
 
     const upcomingHarvests = groupByMonthYear(
-        events.filter(event => event.harvest_date && new Date(event.harvest_date) >= today), 
+        events.filter(event => event.harvest_date && new Date(event.harvest_date) >= today),
         "harvest"
     );
 

@@ -19,13 +19,14 @@ const Plants: React.FC = () => {
     });
 
     if (isLoading) return <p>Loading plants...</p>;
-    if (isError) return <p>Error loading plants. Check the backend.</p>;
+    if (isError || !plants || !speciesList) return <p>Error loading plants. Check the backend.</p>;
 
     return (
         <div className="page-container">
             <h1>Plants</h1>
             <NewPlantModal speciesList={speciesList || []} queryClient={queryClient} />
-            <PlantTable plants={plants || []} queryClient={queryClient} />
+            <PlantTable plants={plants} speciesList={speciesList} queryClient={queryClient} />;
+
         </div>
     );
 };
