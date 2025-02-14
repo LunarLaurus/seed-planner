@@ -7,8 +7,10 @@
   /* 🎨 Global Colors */
   --primary-green: #4CAF50;
   --primary-green-hover: #388E3C;
+  --primary-green-linear-gradient: linear-gradient(180deg, var(--primary-green), var(--primary-green-hover));
   --primary-green-dark: #2d572c;
   --primary-green-dark-hover: #1b3b1b;
+  --primary-green-dark-linear-gradient: linear-gradient(180deg, var(--primary-green-dark), var(--primary-green-dark-hover));
   --earthy-amber-light: #d69b48;
   --earthy-amber-light-hover: #bb8037;
   --earthy-amber: #c78c37;
@@ -257,7 +259,7 @@ td {
 }
 
 th {
-  background: var(--primary-green);
+  background: var(--primary-green-linear-gradient);
   color: white;
 }
 

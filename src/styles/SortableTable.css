@@ -54,7 +54,7 @@
     color: white;
     cursor: pointer;
     position: relative;
-    transition: background 0.3s ease-in-out;
+    transition: background 0.15s ease-in-out;
 }
 
 /* ✅ Hover effect for headers */
@@ -80,12 +80,11 @@
 /* ✅ Ensure non-sortable columns do not show cursor pointer */
 .sortable-table th.non-sortable {
     cursor: default;
-    background: var(--primary-green); /* Maintain original background */
 }
 
 /* ✅ Disable hover effect on non-sortable headers */
 .sortable-table th.non-sortable:hover {
-    background: var(--primary-green); /* Keep background same */
+    background: var(--primary-green);
 }
 
 /* ✅ Hide sorting arrows for non-sortable columns */
