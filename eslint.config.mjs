@@ -6,7 +6,19 @@ import tsParser from "@typescript-eslint/parser";
 
 export default [
   {
-    ignores: ["**/public/**/*", ".local/**/*", "node_modules/**/*", "src/coverage/**/*"],
+    // Extend recommended configs
+    extends: [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "prettier",
+    ],
+    ignores: [
+      "**/public/**/*",
+      ".local/**/*",
+      "node_modules/**/*",
+      "src/coverage/**/*",
+    ],
   },
   {
     plugins: {
@@ -19,7 +31,6 @@ export default [
       globals: {
         ...globals.browser,
       },
-
       parser: tsParser,
       ecmaVersion: 12,
       sourceType: "module",
@@ -47,12 +58,12 @@ export default [
           caughtErrors: "none",
         },
       ],
-
       "no-import-assign": "error",
       "no-unreachable": "error",
     },
   },
   {
+    // This block applies to all JS/TS files
     files: ["**/*.{js,jsx,ts,tsx}"],
   },
 ];

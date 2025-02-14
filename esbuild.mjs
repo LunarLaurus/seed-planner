@@ -1,10 +1,12 @@
 import { build } from "esbuild";
 import { rmSync } from "fs";
 
-// Remove the previous build directory
-rmSync("./.local/express/dist", { recursive: true, force: true });
+const outdir = "./.local/express/dist";
 
-// Run esbuild with the specified options
+// Remove the previous build directory
+rmSync(outdir, { recursive: true, force: true });
+console.log(`Removed previous build directory: ${outdir}`);
+
 build({
   entryPoints: ["src/server/express/server.ts"],
   bundle: true,
@@ -12,7 +14,15 @@ build({
   format: "cjs",
   platform: "node",
   target: "node20",
-  external: [],
-  outfile: "./.local/express/dist/api.js",
+  external: [], // Add any modules here you don't want bundled
+  outfile: `${outdir}/api.js`,
   tsconfig: "./tsconfig.json",
-}).catch(() => process.exit(1));
+  minify: true, // Minify for a lean production bundle
+})
+  .then(() => {
+    console.log("Build succeeded!");
+  })
+  .catch((error) => {
+    console.error("Build failed:", error);
+    process.exit(1);
+  });
