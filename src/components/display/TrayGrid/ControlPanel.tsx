@@ -1,8 +1,9 @@
 import React from "react";
-import { CellCoordinates, Plant } from "@/typings/types";
+import { CellCoordinates, Plant, TrayCell } from "@/typings/types";
 
 interface ControlPanelProps {
   selectedCells: CellCoordinates[];
+  grid: TrayCell[]; // grid data to check whether cells contain a plant
   plants: Plant[] | undefined;
   selectedPlant: number | "";
   setSelectedPlant: (plant: number | "") => void;
@@ -13,9 +14,12 @@ interface ControlPanelProps {
 
 /**
  * ControlPanel renders the controls for managing selected cells.
+ * - The "Assign to Selected" button is enabled only if a valid plant (id > 0) is selected.
+ * - The "Reset Selected" button is enabled if at least one selected cell already contains a plant.
  */
 const ControlPanel: React.FC<ControlPanelProps> = ({
   selectedCells,
+  grid,
   plants,
   selectedPlant,
   setSelectedPlant,
@@ -23,6 +27,23 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
   handleResetCells,
   clearSelection,
 }) => {
+  // A valid plant must have an id greater than 0.
+  const isSelectedPlantValid = typeof selectedPlant === "number" && selectedPlant > 0;
+
+  /**
+   * Checks if at least one selected cell contains a plant.
+   * It does so by matching the cell's coordinates with the grid and checking for a non-null plant_id.
+   * @returns {boolean} True if any selected cell is occupied.
+   */
+  function doesAnySelectedCellContainPlantForResetting(): boolean {
+    return selectedCells.some((cell) => {
+      const correspondingCell = grid.find((c) => c.x === cell.x && c.y === cell.y);
+      return correspondingCell && correspondingCell.plant_id != null;
+    });
+  }
+
+  const canReset = doesAnySelectedCellContainPlantForResetting();
+
   return (
     <div className="cell-control">
       <h4>
@@ -46,8 +67,18 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
               </option>
             ))}
         </select>
-        <button onClick={handleAssignPlant}>Assign to Selected</button>
-        <button className="reset" onClick={handleResetCells}>
+        <button
+          className={`primary ${isSelectedPlantValid ? "" : "inactive"}`}
+          disabled={!isSelectedPlantValid}
+          onClick={handleAssignPlant}
+        >
+          Assign to Selected
+        </button>
+        <button
+          className={`${canReset ? "reset" : "inactive"}`}
+          disabled={!canReset}
+          onClick={handleResetCells}
+        >
           Reset Selected
         </button>
       </div>

@@ -51,9 +51,7 @@ export interface CellCoordinates {
 }
 
 // Used when assigning a plant to a cell
-export interface Cell {
-  x: number;
-  y: number;
+export interface Cell extends CellCoordinates {
   plant_id: number;
   planted_date: string;
 }

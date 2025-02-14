@@ -153,26 +153,6 @@
     transition: background 0.2s ease-in-out, transform 0.1s ease;
 }
 
-/* Assign and Reset Buttons */
-.cell-control button:not(.cancel) {
-    background: var(--earthy-amber);
-    color: white;
-}
-
-.cell-control button:not(.cancel):hover {
-    background: var(--earthy-amber-hover);
-}
-
-/* Cancel Button */
-.cell-control .cancel {
-    background: var(--grey-medium);
-    color: var(--text-dark);
-}
-
-.cell-control .cancel:hover {
-    background: var(--grey-dark);
-}
-
 /* Optional: Style the select dropdown in the control panel */
 .cell-control select {
     padding: 4px;
@@ -204,4 +184,48 @@
 
 .axis-btn:hover {
     background: var(--muted-teal-hover);
+}
+
+
+/* ===========================
+🔲 Buttons
+=========================== */
+
+/* Show/Hide Grid Button */
+.grid-toggle-btn {
+    background: var(--muted-magenta);
+}
+
+.grid-toggle-btn:hover {
+    background: var(--muted-magenta-hover);
+}
+
+/* Inactive Set Plant Button */
+.cell-control .inactive {
+    background: var(--muted-teal);
+    cursor: not-allowed;
+}
+
+.cell-control .inactive:hover {
+    background: var(--muted-teal-hover);
+}
+
+/* Reset Button */
+.cell-control .reset {
+    background: var(--earthy-amber);
+    color: white;
+}
+
+.cell-control .reset:hover {
+    background: var(--earthy-amber-hover);
+}
+
+/* Cancel Button */
+.cell-control .cancel {
+    background: var(--grey-medium);
+    color: var(--text-dark);
+}
+
+.cell-control .cancel:hover {
+    background: var(--grey-dark);
 }

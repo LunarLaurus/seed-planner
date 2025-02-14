@@ -195,6 +195,7 @@ const TrayGrid: React.FC<{ trayId: number }> = ({ trayId }) => {
                     handleAssignPlant={handleAssignPlant}
                     handleResetCells={handleResetCells}
                     clearSelection={() => setSelectedCells([])}
+                    grid={grid}
                 />
             )}
         </div>
