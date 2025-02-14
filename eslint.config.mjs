@@ -2,8 +2,6 @@ import globals from "globals";
 import reactPlugin from "eslint-plugin-react";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import prettierPlugin from "eslint-plugin-prettier";
-import tsRecommended from "@typescript-eslint/eslint-plugin/dist/configs/recommended.js";
-import reactRecommended from "eslint-plugin-react/config/recommended.js";
 import prettierConfig from "eslint-config-prettier";
 
 export default [
@@ -40,11 +38,15 @@ export default [
     },
     // Merge recommended rules from various configs
     rules: {
-      // Merge recommended rules from TypeScript and React
-      ...tsRecommended.rules,
-      ...reactRecommended.rules,
+      // Spread in recommended rules from @typescript-eslint
+      ...tsPlugin.configs.recommended.rules,
+
+      // Spread in recommended rules from eslint-plugin-react
+      ...reactPlugin.configs.recommended.rules,
+
       // Prettier disables conflicting rules
       ...prettierConfig.rules,
+
       // Your custom rules
       "@typescript-eslint/no-unused-vars": [
         "error",
