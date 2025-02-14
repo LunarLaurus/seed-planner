@@ -16,11 +16,35 @@ const GridCell: React.FC<GridCellProps> = ({ cell, gridRow, gridColumn, isSelect
 
   const renderCellContent = (): React.ReactNode => {
     if (!cell.plant_name) return "-";
-    var longPlantName = cell.plant_name + " " + cell.variety;
-    if (longPlantName.length <= 10) return longPlantName;
-    return longPlantName.split(" ").join("\n");
-  };
 
+    const plantName = cell.plant_name;
+    const variety = cell.variety;
+    const combined = variety ? `${plantName} ${variety}` : plantName;
+
+    if (combined.length <= 8) {
+      // Render inline for short text
+      return (
+        <div className="cell-content">
+          <div className="plant-name" style={{ display: "inline-block", marginRight: "0.25em" }}>
+            {plantName}
+          </div>
+          {variety && (
+            <div className="variety" style={{ display: "inline-block" }}>
+              {variety}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Render on separate lines for longer text
+    return (
+      <div className="cell-content">
+        <div className="plant-name">{plantName}</div>
+        {variety && <div className="variety">{variety}</div>}
+      </div>
+    );
+  };
 
   return (
     <div

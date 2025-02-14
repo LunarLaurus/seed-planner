@@ -5,6 +5,8 @@
 
 :root {
   /* 🎨 Global Colors */
+  --primary-green-light: #5ed562;
+  --primary-green-light-hover: #4dc053;
   --primary-green: #4CAF50;
   --primary-green-hover: #388E3C;
   --primary-green-linear-gradient: linear-gradient(180deg, var(--primary-green), var(--primary-green-hover));
