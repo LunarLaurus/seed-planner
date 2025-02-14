@@ -1,5 +1,6 @@
 import React from "react";
 import { DisplayCell, CellCoordinates } from "@/typings/types";
+import { splitVariety } from "@/utils/textSplitUtils";
 
 export interface GridCellProps {
   cell: DisplayCell;
@@ -12,9 +13,14 @@ export interface GridCellProps {
 /**
  * GridCell renders a single cell and handles its own text rendering.
  */
-const GridCell: React.FC<GridCellProps> = ({ cell, gridRow, gridColumn, isSelected, toggleCell }) => {
-
-  const renderCellContent = (): React.ReactNode => {
+const GridCell: React.FC<GridCellProps> = ({
+  cell,
+  gridRow,
+  gridColumn,
+  isSelected,
+  toggleCell,
+}) => {
+  const renderCellTextContent = (): React.ReactNode => {
     if (!cell.plant_name) return "-";
 
     const plantName = cell.plant_name;
@@ -41,7 +47,13 @@ const GridCell: React.FC<GridCellProps> = ({ cell, gridRow, gridColumn, isSelect
     return (
       <div className="cell-content">
         <div className="plant-name">{plantName}</div>
-        {variety && <div className="variety">{variety}</div>}
+        {variety && (
+          <div className="variety">
+            {splitVariety(variety).map((chunk, i) => (
+              <div key={`variety-${i}`}>{chunk}</div>
+            ))}
+          </div>
+        )}
       </div>
     );
   };
@@ -52,7 +64,7 @@ const GridCell: React.FC<GridCellProps> = ({ cell, gridRow, gridColumn, isSelect
       style={{ gridColumn, gridRow }}
       onClick={() => toggleCell({ x: cell.x, y: cell.y })}
     >
-      {renderCellContent()}
+      {renderCellTextContent()}
     </div>
   );
 };
