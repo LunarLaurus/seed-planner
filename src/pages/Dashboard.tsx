@@ -48,8 +48,8 @@ const Dashboard: React.FC = () => {
     return (
         <div className="page-container">
             <h1>Dashboard</h1>
+            <p style={{ textAlign: "center", paddingBottom: "10px" }}>Overview of recent plantings, germination progress, and upcoming harvests.</p>
             <div className="content-container">
-                <p>Overview of recent plantings, germination progress, and upcoming harvests.</p>
                 <br />
 
                 <h2>Current Trays</h2>

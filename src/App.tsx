@@ -9,6 +9,7 @@ import Plants from "@/pages/Plants";
 import Species from "@/pages/SpeciesPage";
 import SeedingCalendar from "@/pages/SeedingCalendar";
 import "./styles/Primary.css";
+import TrayOverview from "./pages/TrayOverview";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/trays" element={<Trays />} />
+          <Route path="/trays/view-all" element={<TrayOverview />} />
           <Route path="/plants" element={<Plants />} />
           <Route path="/species" element={<Species />} />
           <Route path="/calendar" element={<SeedingCalendar />} />

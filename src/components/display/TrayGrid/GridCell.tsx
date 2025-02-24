@@ -7,7 +7,7 @@ export interface GridCellProps {
   gridRow: number;
   gridColumn: number;
   isSelected: boolean;
-  toggleCell: (cell: CellCoordinates) => void;
+  toggleCell?: (cell: CellCoordinates) => void;
 }
 
 /**
@@ -58,11 +58,17 @@ const GridCell: React.FC<GridCellProps> = ({
     );
   };
 
+  const handleClick = () => {
+    if (toggleCell) {
+      toggleCell({ x: cell.x, y: cell.y });
+    }
+  };
+
   return (
     <div
       className={`grid-cell ${cell.plant_name ? "occupied" : ""} ${isSelected ? "selected" : ""}`}
       style={{ gridColumn, gridRow }}
-      onClick={() => toggleCell({ x: cell.x, y: cell.y })}
+      onClick={toggleCell ? handleClick : undefined}
     >
       {renderCellTextContent()}
     </div>

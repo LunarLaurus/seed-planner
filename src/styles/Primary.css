@@ -1,7 +1,7 @@
 /* ===========================
 🌍 Global Reset & Typography
 =========================== */
-@import url('https://fonts.googleapis.com/css2?family=HPE&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 :root {
   /* 🎨 Global Colors */
@@ -42,11 +42,17 @@
   --border-radius-standard: 8px;
 }
 
+.varela-round-regular {
+  font-family: "Varela Round", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "HPE", sans-serif;
+  font-family: "Varela Round", serif;
 }
 
 body {
