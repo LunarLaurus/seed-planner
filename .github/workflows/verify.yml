@@ -9,38 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      # -----------------------------
-      # Frontend: seed-planner-client
-      # -----------------------------
-      - name: Install frontend dependencies
-        run: |
-          cd seed-planner-client
-          npm ci
+      - name: Install Dependencies
+        run: npm ci
 
-      - name: Build frontend
-        run: |
-          cd seed-planner-client
-          npm run build
-
-      # -----------------------------
-      # Backend: seed-planner-api (optional build/test)
-      # -----------------------------
-      - name: Install backend dependencies
-        run: |
-          cd seed-planner-api
-          npm ci
-
-      # If you have a backend build or test script, do it here
-      - name: Build / Test backend
-        run: |
-          cd seed-planner-api
-          # Example: npm run build or npm test
-          npm run build
+      - name: Build Project
+        run: npm run build

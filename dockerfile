@@ -1,41 +1,40 @@
-# ----------------------------------------------------
-# Stage 1: Frontend Builder
-# ----------------------------------------------------
-FROM node:20 AS frontend-builder
+# Stage 1: Build Stage
+FROM node:20 AS builder
 
-WORKDIR /app/frontend
+WORKDIR /app
 
-# 1. Copy just the package files and install all deps
-COPY seed-planner-client/package*.json ./
+# Copy package files and install dependencies
+COPY package*.json ./
+COPY tsconfig*.json ./
 RUN npm ci
 
-# 2. Copy the actual frontend source
-COPY seed-planner-client/ ./
+# Copy the rest of the source code
+COPY . .
 
-# 3. Build the frontend. We call Vite via node so we skip file permission drama
-RUN node ./node_modules/vite/bin/vite.js build
+# Run the build script to compile both frontend and backend
+RUN npm run build
 
-
-# ----------------------------------------------------
-# Stage 2: Backend and Final Image
-# ----------------------------------------------------
+# Stage 2: Production Stage
 FROM node:20-slim
 
-WORKDIR /app/backend
+WORKDIR /app
 
-# 1. Copy backend package files
-COPY seed-planner-api/package*.json ./
+# Set production environment
+ENV NODE_ENV=production
 
-# 2. Install only runtime dependencies to keep final image small
+# Copy built artifacts (both backend and frontend) from the builder stage
+COPY --from=builder /app/.local ./.local
+# If you need your source files for runtime (e.g., views, etc.), copy them too:
+# COPY --from=builder /app/src ./src
+
+# Copy package files for runtime dependency installation
+COPY --from=builder /app/package*.json ./
+
+# Install only production dependencies
 RUN npm ci --omit=dev
-# or if you're on older npm versions (< v9), do: RUN npm ci --production
 
-# 3. Copy backend source
-COPY seed-planner-api/ ./
+# Expose the port your app listens on
+EXPOSE 5000
 
-# 4. Copy the compiled frontend from the builder stage into /public
-COPY --from=frontend-builder /app/frontend/dist ./public
-
-# 5. Set the exposed port and run
-EXPOSE 3000
-CMD ["node", "server.js"]
+# Start the application (this calls "node ./.local/express/dist/api.js" per your start script)
+CMD ["npm", "start"]

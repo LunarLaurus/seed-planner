@@ -1,0 +1,122 @@
+/* ===========================
+📊 Sortable Table Styling
+=========================== */
+
+.sortable-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: var(--background-light);
+    border-radius: var(--border-radius-standard);
+    box-shadow: var(--box-shadow-light);
+}
+
+/* ✅ Ensure table layout is fully responsive */
+.sortable-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--border-radius-standard);
+    background: white;
+    box-shadow: var(--box-shadow-light);
+}
+
+/* ✅ Rounded corners for table */
+.sortable-table tr:first-child th:first-child {
+    border-top-left-radius: var(--border-radius-standard);
+}
+
+.sortable-table tr:first-child th:last-child {
+    border-top-right-radius: var(--border-radius-standard);
+}
+
+.sortable-table tr:last-child td:first-child {
+    border-bottom-left-radius: var(--border-radius-standard);
+}
+
+.sortable-table tr:last-child td:last-child {
+    border-bottom-right-radius: var(--border-radius-standard);
+}
+
+/* ✅ Table header and cells */
+.sortable-table th,
+.sortable-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+/* ✅ Header styling */
+.sortable-table th {
+    background: var(--primary-green);
+    color: white;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s ease-in-out;
+}
+
+/* ✅ Hover effect for headers */
+.sortable-table th:hover {
+    background: var(--primary-green-hover);
+}
+
+/* ✅ Row height */
+.sortable-table tr {
+    height: 100px;
+    transition: background 0.2s ease-in-out;
+}
+
+/* ✅ Hover effect for rows */
+.sortable-table tbody tr:hover {
+    background: var(--background-light);
+}
+
+/* ===========================
+🚫 Non-Sortable Columns
+=========================== */
+
+/* ✅ Ensure non-sortable columns do not show cursor pointer */
+.sortable-table th.non-sortable {
+    cursor: default;
+}
+
+/* ✅ Disable hover effect on non-sortable headers */
+.sortable-table th.non-sortable:hover {
+    background: var(--primary-green);
+}
+
+/* ✅ Hide sorting arrows for non-sortable columns */
+.sortable-table th.non-sortable::after {
+    content: "";
+}
+
+/* ===========================
+🔽 Sorting Arrows
+=========================== */
+
+/* ✅ Show sorting arrows on sortable columns only */
+.sortable-table th:not(.non-sortable)::after {
+    content: " ⇄";
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+/* ✅ Hide default arrow when column is actively sorted */
+.sortable-table th[data-sort="asc"]::after,
+.sortable-table th[data-sort="desc"]::after {
+    content: "";
+}
+
+/* ✅ Show correct arrow for active sorting */
+.sortable-table th[data-sort="asc"]::after {
+    content: " ▲";
+    color: white;
+}
+
+.sortable-table th[data-sort="desc"]::after {
+    content: " ▼";
+    color: white;
+}

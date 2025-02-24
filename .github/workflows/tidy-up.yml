@@ -11,83 +11,41 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
+          cache: 'npm'
 
-      - name: Check if ncu is installed
-        id: check_ncu
+      - name: Install Global Dependencies
+        run: npm install -g npm-check-updates depcheck
+
+      - name: Tidy Up Dependencies
         run: |
-          if command -v ncu &> /dev/null; then
-            echo "ncu_installed=true" >> $GITHUB_OUTPUT
-          else
-            echo "ncu_installed=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Check if depcheck is installed
-        id: check_depcheck
-        run: |
-          if command -v depcheck &> /dev/null; then
-            echo "depcheck_installed=true" >> $GITHUB_OUTPUT
-          else
-            echo "depcheck_installed=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Install global dependencies if needed
-        run: |
-          if [ "${{ steps.check_ncu.outputs.ncu_installed }}" = "false" ]; then
-            npm install -g npm-check-updates
-          fi
-          if [ "${{ steps.check_depcheck.outputs.depcheck_installed }}" = "false" ]; then
-            npm install -g depcheck
-          fi
-
-      # ----------------------------------------
-      # Optionally handle multiple package.jsons:
-      # - front-end (seed-planner-client)
-      # - back-end (seed-planner-api)
-      # We unify them by running npm-check-updates, etc. in each folder
-      # ----------------------------------------
-
-      - name: Tidy up front-end dependencies
-        run: |
-          cd seed-planner-client
-          npm install
+          echo "🛠️ Running dependency checks in root..."
+          npm ci
           ncu -u
-          depcheck
+          depcheck || true  # Continue even if unused deps are flagged
           npm install
 
-      - name: Tidy up back-end dependencies
-        run: |
-          cd ../seed-planner-api
-          npm install
-          ncu -u
-          depcheck
-          npm install
-
-      # If you prefer to do it all from root, rework accordingly
-
-      - name: Check for changes
-        id: check_changes
-        continue-on-error: true
+      - name: Check for Changes
         run: |
           git config --local user.name "github-actions"
           git config --local user.email "actions@github.com"
           git add .
-          git diff --cached --exit-code
-          if [ $? -ne 0 ]; then
-            echo "changes_detected=true" >> $GITHUB_OUTPUT
+          if git diff --cached --quiet; then
+            echo "No changes detected."
+            echo "changes_detected=false" >> $GITHUB_ENV
           else
-            echo "changes_detected=false" >> $GITHUB_OUTPUT
+            echo "Changes detected."
+            echo "changes_detected=true" >> $GITHUB_ENV
           fi
 
-      - name: Commit changes
-        if: ${{ steps.check_changes.outputs.changes_detected == 'true' }}
+      - name: Commit and Push Changes
+        if: env.changes_detected == 'true'
         run: |
           git commit -m "✨ Tidy up project dependencies and remove unused ones" || echo "No changes to commit"
-
-      - name: Push changes
-        if: ${{ steps.check_changes.outputs.changes_detected == 'true' }}
-        run: git push
+          git push

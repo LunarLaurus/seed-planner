@@ -42,8 +42,9 @@ seed-planner-api/coverage/
 ################################
 # Environment Files
 ################################
+.local/
 .env
-.env.* 
+.env.*
 seed-planner-client/.env
 seed-planner-client/.env.*
 seed-planner-api/.env

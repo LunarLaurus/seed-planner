@@ -1,0 +1,260 @@
+/* ===========================
+📐 Grid Layout & General Styling
+=========================== */
+
+.tray-container {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Proper header alignment */
+.tray-container h3 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Tray Grid */
+.tray-grid {
+    display: grid;
+    gap: 3px;
+    border: 2px solid #444;
+    padding: 10px;
+    background: white;
+    box-shadow: var(--box-shadow-dark);
+    width: fit-content;
+    margin: auto;
+    align-items: center;
+}
+
+/* New: Grid container for the complete tray (including axis buttons)
+   Ensures that all grid items (cells and buttons) are centered. */
+.tray-grid-container {
+    justify-items: center;
+    align-items: center;
+}
+
+/* ===========================
+📦 Tray Grid Cells
+=========================== */
+
+.grid-cell {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--grey-medium);
+    background-color: var(--grey-dark);
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+/* Container for cell content */
+.cell-content {
+    font-size: 10px;
+    text-align: center;
+}
+
+/* Optional: for inline display, if you add a modifier class */
+.cell-content.inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Styling for the plant name */
+.cell-content .plant-name {
+    font-weight: bold;
+    font-size: 11px;
+    padding-bottom: 2px;
+    color: #121212
+}
+
+/* Styling for the variety */
+.cell-content .variety {
+    font-style: italic;
+    font-size: 8px;
+    color: #3a3a3a
+}
+
+
+/* Highlight occupied cells */
+.grid-cell.occupied {
+    background-color: var(--primary-green-light);
+    color: white;
+    border: 1px solid var(--primary-green-dark);
+}
+
+/* Highlight selected cell */
+.grid-cell.selected {
+    background-color: var(--earthy-amber-light) !important;
+    color: var(--text-dark);
+    border: 2px solid var(--earthy-amber);
+}
+
+/* Hover effect */
+.grid-cell:hover {
+    background-color: var(--earthy-amber-hover);
+    transform: scale(1.25);
+}
+
+/* ===========================
+📦 Grid Toggle Buttons
+=========================== */
+
+/* Show Grid button */
+.show-grid-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Hide Grid button (Centered above the grid) */
+.hide-grid-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+/* General button styling */
+.grid-toggle-btn {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: var(--border-radius-standard);
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+}
+
+.grid-toggle-btn:hover {
+    background: var(--primary-green-dark);
+}
+
+/* Ensure Show Grid button stays aligned properly */
+.tray-hidden {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===========================
+🎛️ Cell Management Section
+=========================== */
+
+.cell-control {
+    margin-top: 15px;
+    padding: 10px;
+    background: var(--background-light);
+    border-radius: var(--border-radius-standard);
+    box-shadow: var(--box-shadow-light);
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+}
+
+/* Buttons inside cell control */
+.cell-control button {
+    margin: 5px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: var(--border-radius-standard);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, transform 0.1s ease;
+}
+
+/* Optional: Style the select dropdown in the control panel */
+.cell-control select {
+    padding: 4px;
+    font-size: 14px;
+    border: 1px solid var(--grey-light);
+    border-radius: var(--border-radius-button);
+    margin-right: 8px;
+}
+
+/* ===========================
+🔲 Axis Buttons (Row & Column Selectors)
+=========================== */
+
+.axis-btn {
+    background: var(--muted-teal);
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-button);
+    font-size: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.axis-btn:hover {
+    background: var(--muted-teal-hover);
+}
+
+
+/* ===========================
+🔲 Buttons
+=========================== */
+
+/* Show/Hide Grid Button */
+.grid-toggle-btn {
+    background: var(--muted-magenta);
+}
+
+.grid-toggle-btn:hover {
+    background: var(--muted-magenta-hover);
+}
+
+/* Inactive Set Plant Button */
+.cell-control .inactive {
+    background: var(--muted-teal);
+    cursor: not-allowed;
+}
+
+.cell-control .inactive:hover {
+    background: var(--muted-teal-hover);
+}
+
+/* Reset Button */
+.cell-control .reset {
+    background: var(--earthy-amber);
+    color: white;
+}
+
+.cell-control .reset:hover {
+    background: var(--earthy-amber-hover);
+}
+
+/* Cancel Button */
+.cell-control .cancel {
+    background: var(--grey-medium);
+    color: var(--text-dark);
+}
+
+.cell-control .cancel:hover {
+    background: var(--grey-dark);
+}
