@@ -2,6 +2,8 @@ import 'dotenv/config';
 import express, { Express, Request, Response } from 'express';
 import packageJSON from "../../../package.json";
 import cors from 'cors';
+import path from "path";
+import fs from "fs";
 import { Pool } from 'pg';
 import { NodeTracerProvider } from '@opentelemetry/sdk-trace-node';
 import { SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
@@ -12,6 +14,10 @@ import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
 import { Tray, Plant, TrayCell, Species } from '@/typings/types';
 import { createServer } from 'http';
 
+function log(text: string) {
+  console.log("Seed-Planner-Api: " + text)
+}
+
 /* ===================== CONSTANTS & CONFIGURATION ===================== */
 
 /**
@@ -19,14 +25,12 @@ import { createServer } from 'http';
  * @constant {string}
  */
 const API_URL_BASE: string = '/api/v1';
-console.log("SERVER: Found API_URL_BASE: " + API_URL_BASE);
 
 /**
  * Base URL for internal API endpoints.
  * @constant {string}
  */
 const INTERNAL_API_URL_BASE: string = '/api/internal/v1';
-console.log("SERVER: Found INTERNAL_API_URL_BASE: " + INTERNAL_API_URL_BASE);
 
 /**
  * Tray-related endpoint base URL.
@@ -529,14 +533,42 @@ SERVER_APPLICATION.delete(`${SPECIES_URL_BASE}/:speciesId`, async (req: Request,
 
 /* ===================== STATIC FILES & SERVER START ===================== */
 
-// Serve static files from the Vite build folder.
-SERVER_APPLICATION.use(express.static("./.local/vite/dist"));
+const __dirname = path.resolve();
+const frontendPath = path.join(__dirname, ".local/vite/dist");
+log("Serving frontend from: " + frontendPath);
+
+// Serve frontend files
+if (fs.existsSync(frontendPath)) {
+  SERVER_APPLICATION.use(express.static(frontendPath));
+
+  SERVER_APPLICATION.get("*", (_req: Request, res: Response) => {
+    const indexPath = path.join(frontendPath, "index.html");
+    if (!fs.existsSync(indexPath)) {
+      res.status(404).send("Frontend build not found.");
+    } else {
+      res.sendFile(indexPath);
+    }
+  });
+} else {
+  console.warn("WARNING: Frontend build not found at " + frontendPath);
+}
 
 /**
  * Create and start the HTTP server.
  */
 const server = createServer();
 server.on("request", SERVER_APPLICATION);
-server.listen(SERVER_PORT, "127.0.0.1", () => {
-  console.log(`API running on localhost:${SERVER_PORT}`);
+server.listen(SERVER_PORT, "0.0.0.0", () => {
+  SERVER_DB_POOL.connect()
+    .then(() => log("Connected to Seed-Planner-PostgreSQL Backend"))
+    .catch((err) => {
+      console.error("Database connection error:", err);
+      log("Unable to connect to backend, stopping application.");
+      process.exit(1);
+    });
+  log("PORT:                  " + SERVER_PORT);
+  log("API_URL_BASE:          " + API_URL_BASE);
+  log("INTERNAL_API_URL_BASE: " + INTERNAL_API_URL_BASE);
 });
+
+

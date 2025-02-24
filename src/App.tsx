@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { loadConfig } from "./utils/api";
 import NavBar from "./components/navigation/NavBar";
 import Dashboard from "@/pages/Dashboard";
 import Trays from "@/pages/Trays";
@@ -8,7 +9,6 @@ import Plants from "@/pages/Plants";
 import Species from "@/pages/SpeciesPage";
 import SeedingCalendar from "@/pages/SeedingCalendar";
 import "./styles/Primary.css";
-import { loadConfig } from "./utils/api";
 
 const queryClient = new QueryClient();
 
