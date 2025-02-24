@@ -1,0 +1,46 @@
+services:
+  seed-planner:
+    image: lunarlaurus7735/seed-planner:latest
+    container_name: seed_planner
+    restart: always
+    environment:
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: seed_planner_db
+      DB_NAME: seed_planner
+    ports:
+      - "5000:5000"
+    volumes:
+      - seed_data:/var/lib/seed_planner/data
+
+  postgres:
+    image: postgres:latest
+    container_name: seed_planner_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: seed_planner
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: seed_planner_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: some@email.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5450:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  seed_data:
+  postgres_data:
+  pgadmin_data:
