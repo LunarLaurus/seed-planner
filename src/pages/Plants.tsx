@@ -25,8 +25,7 @@ const Plants: React.FC = () => {
         <div className="page-container">
             <h1>Plants</h1>
             <NewPlantModal speciesList={speciesList || []} queryClient={queryClient} />
-            <PlantTable plants={plants} speciesList={speciesList} queryClient={queryClient} />;
-
+            <PlantTable plants={plants} speciesList={speciesList} queryClient={queryClient} />
         </div>
     );
 };

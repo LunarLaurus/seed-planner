@@ -5,6 +5,7 @@ import TrayTable from "@/components/table/TrayTable";
 import NewTrayModal from "@/components/modal/NewTrayModal";
 import "@/styles/Forms.css";
 import GenericNavButton from "@/components/button/GenericNavButton";
+import ButtonBox from "@/components/display/ButtonBox";
 
 const Trays: React.FC = () => {
     const queryClient = useQueryClient();
@@ -21,8 +22,10 @@ const Trays: React.FC = () => {
     return (
         <div className="page-container">
             <h1>Trays</h1>
-            <NewTrayModal queryClient={queryClient} />
-            <GenericNavButton to={"/trays/view-all"} title={"Show all trays"} />
+            <ButtonBox>
+                <NewTrayModal queryClient={queryClient} />
+                <GenericNavButton to={"/trays/view-all"} title={"Show all trays"} />
+            </ButtonBox>
             <TrayTable trays={trays || []} queryClient={queryClient} />
         </div>
     );

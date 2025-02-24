@@ -1,0 +1,25 @@
+.button-box {
+  display: flex;
+  gap: 1px;
+  padding: 1px;
+}
+
+/* Side by side: default flex direction row */
+.button-box.side-by-side {
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Stacked: flex direction column */
+.button-box.stacked {
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Enforce sensible sizing on buttons */
+.button-box>button {
+  min-width: 30px;
+  max-width: fit-content;
+  width: fit-content;
+  box-sizing: border-box;
+}
