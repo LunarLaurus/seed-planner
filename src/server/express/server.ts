@@ -534,8 +534,12 @@ SERVER_APPLICATION.delete(`${SPECIES_URL_BASE}/:speciesId`, async (req: Request,
 /* ===================== STATIC FILES & SERVER START ===================== */
 
 const __dirname = path.resolve();
-const frontendPath = path.join(__dirname, ".local/vite/dist");
-log("Serving frontend from: " + frontendPath);
+// Check for local Vite build first
+const localFrontendPath = path.join(__dirname, ".local/vite/dist");
+const dockerFrontendPath = path.join(__dirname, "dist");
+const frontendPath = fs.existsSync(localFrontendPath) ? localFrontendPath : dockerFrontendPath;
+
+log(`Serving frontend from: ${frontendPath}`);
 
 // Serve frontend files
 if (fs.existsSync(frontendPath)) {
@@ -550,7 +554,9 @@ if (fs.existsSync(frontendPath)) {
     }
   });
 } else {
-  console.warn("WARNING: Frontend build not found at " + frontendPath);
+  console.warn(`WARNING: No frontend build found. Checked paths:
+  - Local build: ${localFrontendPath}
+  - Docker build: ${dockerFrontendPath}`);
 }
 
 /**
