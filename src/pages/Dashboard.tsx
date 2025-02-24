@@ -33,10 +33,17 @@ const Dashboard: React.FC = () => {
     const sevenDaysAhead = new Date();
     sevenDaysAhead.setDate(today.getDate() + 7);
 
-    // Filter events based on planting date, germination date, and harvest date.
-    const recentlyPlanted = calendarEvents?.filter(event => isRecentEvent(event.planted_date, 14));
-    const upcomingGerminations = filterEventsInRange(calendarEvents ?? [], "germination_date", today, sevenDaysAhead);
-    const upcomingHarvests = filterEventsInRange(calendarEvents ?? [], "harvest_date", today, sevenDaysAhead);
+    const safeCalendarEvents = Array.isArray(calendarEvents) ? calendarEvents : [];
+    const recentlyPlanted = safeCalendarEvents.filter(
+        (event) => isRecentEvent(event?.planted_date, 14)
+    );
+    const upcomingGerminations = filterEventsInRange(
+        safeCalendarEvents, "germination_date", today, sevenDaysAhead
+    );
+    const upcomingHarvests = filterEventsInRange(
+        safeCalendarEvents, "harvest_date", today, sevenDaysAhead
+    );
+
 
     return (
         <div className="page-container">

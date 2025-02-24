@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 
 // Environment & API URL configuration
-const ENV_API_URL: string = import.meta.env.VITE_API_URL;
+const ENV_API_URL: string = import.meta.env.VITE_API_URL || "http://localhost:5000";
 console.log("GUI: Found ENV_API_URL: " + ENV_API_URL);
 
 const API_URL_BASE: string = 'api/v1';
